@@ -1,11 +1,22 @@
-// CharacterMarker.js
 import React from 'react';
 
-function CharacterMarker({ position }) {
+function CharacterMarker({ position, scaleFactor }) {
+  const size = 50;
+  const scaledSize = size * scaleFactor; 
+  const offset = scaledSize / 2; 
+  const adjustmentX = 20; 
+  const adjustmentY = 20;
+
   return (
     <div 
-      style={{'--x': `${position.x}px`, '--y': `${position.y}px`}}
-      className=' absolute left-[calc(var(--x)-20px)] top-[calc(var(--y)-20px)] w-[50px] h-[50px] border-2 border-solid border-red-600 pointer-events-none'
+      style={{
+        left: `${position.x * scaleFactor - offset + adjustmentX}px`,
+        top: `${position.y * scaleFactor - offset + adjustmentY}px`,
+        width: `${scaledSize}px`,
+        height: `${scaledSize}px`,
+        transform: `translate(-50%, -50%)`
+      }}
+      className='absolute border-2 border-solid border-red-600 rounded-full pointer-events-none'
     />
   );
 }

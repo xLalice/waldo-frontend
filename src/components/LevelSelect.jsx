@@ -17,7 +17,7 @@ function LevelSelect() {
     };
 
     return (
-        <div className="w-full text-center">
+        <div className="w-screen h-screen text-center overflow-x-hidden">
             <h1 className="text-3xl font-bold mb-6">Select an image</h1>
             <div className="flex justify-center w-full gap-6">
                 <Link to="/play/waldo1" className="group relative">

@@ -6,6 +6,9 @@ import CharacterMarker from './CharacterMarker';
 import GameCompletedModal from './GameCompletedModal';
 import api from '../services/api';
 
+const REFERENCE_WIDTH = 1423.28;
+const REFERENCE_HEIGHT = 894.45;
+
 function GameBoard() {
     const { imageId } = useParams();
     const [targetingPosition, setTargetingPosition] = useState(null);
@@ -16,11 +19,18 @@ function GameBoard() {
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [scaleFactor, setScaleFactor] = useState(1);
 
     const correctSoundRef = useRef(null);
     const wrongSoundRef = useRef(null);
     const winSoundRef = useRef(null);
     const bgmSoundRef = useRef(null);
+
+    const calculateScaleFactor = useCallback(() => {
+        const screenWidth = window.innerWidth;
+        const widthRatio = screenWidth / REFERENCE_WIDTH;
+        return widthRatio;
+    }, []);
 
     useEffect(() => {
         correctSoundRef.current = new Audio('/correct.wav');
@@ -39,12 +49,24 @@ function GameBoard() {
 
     useEffect(() => {
         const fetchCharacters = async () => {
-            const response = await api.getCharacters(imageId); 
+            const response = await api.getCharacters(imageId);
             setCharacters(response.data);
         };
+    
+        const updateScaleFactor = () => {
+            setScaleFactor(calculateScaleFactor());
+        };
+
+        updateScaleFactor();
+        window.addEventListener('resize', updateScaleFactor);
+
         setStartTime(Date.now());
         fetchCharacters();
-    }, [imageId]);
+
+        return () => window.removeEventListener('resize', updateScaleFactor);
+    
+        
+    }, [imageId, calculateScaleFactor ]);
 
     useEffect(() => {
         if (gameCompleted) {
@@ -64,10 +86,12 @@ function GameBoard() {
         return () => clearInterval(timer);
     }, [startTime, gameCompleted]);
 
+    
+
     const handleImageClick = useCallback((event) => {
         const rect = event.target.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+        const x = ((event.clientX - rect.left) / rect.width) * REFERENCE_WIDTH;
+        const y = ((event.clientY - rect.top) / rect.height) * REFERENCE_HEIGHT;
         setTargetingPosition({ x, y });
         setIsDropdownVisible(true);
     }, []);
@@ -114,27 +138,47 @@ function GameBoard() {
         window.dispatchEvent(event);
     }, []);
 
+    console.log(targetingPosition)
+    console.log(scaleFactor)
+
     return (
         <div className="relative" onClick={handleOutsideClick}>
-            <img
-                src={`/${imageId}.jpeg`}
-                alt="Where's Waldo Game"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleImageClick(e);
-                }}
-                className="w-screen w-full h-screen object-cover"
-            />
+            <div className="relative w-full h-full overflow-hidden">
+                <img
+                    src={`/${imageId}.jpeg`}
+                    alt="Where's Waldo Game"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleImageClick(e);
+                    }}
+                    style={{
+                        width: '100%',
+                        height: 'auto',
+                        objectFit: 'contain',
+                    }}
+                />
+            </div>
             <div className="absolute top-8 right-4 bg-white p-2 rounded shadow-md text-cyan-500 ">
                 {formatTime(elapsedTime)}
             </div>
-            {targetingPosition && <TargetingBox position={targetingPosition} />}
+            {targetingPosition && (
+                <TargetingBox
+                    position={targetingPosition}
+                    scaleFactor={scaleFactor}
+                />
+            )}
             {isDropdownVisible && targetingPosition && (
                 <CharacterDropdown 
-                position={targetingPosition} 
-                onSelect={handleCharacterSelect} 
-                characters={characters}
-                foundCharacters={foundCharacters} />
+                    position={targetingPosition}
+                    scaleFactor={scaleFactor}
+                    onSelect={handleCharacterSelect} 
+                    characters={characters}
+                    foundCharacters={foundCharacters}
+                    imageDimensions={{
+                        width: REFERENCE_WIDTH,
+                        height: REFERENCE_HEIGHT
+                    }}
+                />
             )}
             {foundCharacters.map((characterName) => {
                 const character = characters.find((c) => c.name === characterName);
@@ -142,6 +186,7 @@ function GameBoard() {
                     <CharacterMarker
                         key={characterName}
                         position={{ x: character.x, y: character.y }}
+                        scaleFactor={scaleFactor}
                     />
                 );
             })}

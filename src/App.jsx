@@ -22,7 +22,7 @@ function App() {
                         </li>
                     </ul>
                 </nav>
-                <div className="w-screen h-screen flex justify-center items-center pt-20">
+                <div className="w-full h-full flex justify-center items-center pt-20">
                     <Routes>
                         <Route path="/" element={<LevelSelect />} />
                         <Route path="/play/:imageId" element={<GameBoard />} />

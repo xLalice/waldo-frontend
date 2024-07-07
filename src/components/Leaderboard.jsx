@@ -5,9 +5,9 @@ function Leaderboard() {
     const [scores, setScores] = useState([]);
 
     useEffect(() => {
-        fetchScores();
+        fetchScores('waldo1');
         const handleScoreSubmitted = () => {
-            fetchScores();
+            fetchScores('waldo1');
         };
 
         window.addEventListener('scoreSubmitted', handleScoreSubmitted);
@@ -27,7 +27,7 @@ function Leaderboard() {
     };
 
     return (
-        <div className="container w-full mx-auto max-w-3xl px-4 py-8">
+        <div className="container  mx-auto px-4 py-8">
             <h2 className="text-3xl font-bold text-center mb-6">Leaderboard</h2>
             <div className="flex justify-center gap-6 mb-6">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => fetchScores("waldo1")}>Image 1</button>
