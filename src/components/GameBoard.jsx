@@ -151,14 +151,10 @@ function GameBoard() {
                         e.stopPropagation();
                         handleImageClick(e);
                     }}
-                    style={{
-                        width: '100%',
-                        height: 'auto',
-                        objectFit: 'contain',
-                    }}
+                    className='w-full h-full object-cover cursor-pointer'
                 />
             </div>
-            <div className="absolute top-8 right-4 bg-white p-2 rounded shadow-md text-cyan-500 ">
+            <div className="fixed top-4 right-2/4 bg-white p-2 rounded shadow-md text-cyan-500 z-10 ">
                 {formatTime(elapsedTime)}
             </div>
             {targetingPosition && (

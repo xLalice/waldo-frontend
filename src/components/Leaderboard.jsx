@@ -30,17 +30,19 @@ function Leaderboard() {
         <div className="container  mx-auto px-4 py-8">
             <h2 className="text-3xl font-bold text-center mb-6">Leaderboard</h2>
             <div className="flex justify-center gap-6 mb-6">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => fetchScores("waldo1")}>Image 1</button>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => fetchScores("waldo2")}>Image 2</button>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => fetchScores("waldo3")}>Image 3</button>
+                {['waldo1', 'waldo2', 'waldo3'].map((image) => (
+                    <button key={image} onClick={() => fetchScores(image)} className={`w-60 p-2 border rounded shadow-md ${image === scores[0]?.image ? 'bg-blue-600 text-white' : ''}`}>
+                        <img className="w-full" src={`/${image}.jpeg`} alt="" />
+                    </button>
+                ))}
             </div>
             <div className="overflow-x-auto w-full">
-                <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <table className="w-full bg-white text-center shadow-md rounded-lg overflow-hidden">
                     <thead className="bg-blue-600 text-white">
                         <tr>
-                            <th className="py-3 px-4 text-left">Rank</th>
-                            <th className="py-3 px-4 text-left">Player</th>
-                            <th className="py-3 px-4 text-left">Time (seconds)</th>
+                            <th className="py-3 px-4 text-center">Rank</th>
+                            <th className="py-3 px-4 text-center">Player</th>
+                            <th className="py-3 px-4 text-center">Time (seconds)</th>
                         </tr>
                     </thead>
                     <tbody>
