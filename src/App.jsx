@@ -8,11 +8,11 @@ function App() {
     return (
         <Router>
             <div className="min-h-screen w-full bg-gray-100">
-                <nav className="relative w-full z-10 bg-gray-100">
+                <nav className="max-[500px]:w-full relative w-full z-10 bg-gray-100">
                     <ul className="flex items-center h-16 px-4 w-full">
                         <li className="mx-4 mr-auto">
                             <Link to="/" className="text-blue-600 hover:text-blue-800 font-medium">
-                                <img className="w-40 mt-10 z-10 " src="/logo.svg" alt="" />
+                                <img className="max-[600px]:w-20 max-[600px]:h-20 max-[600px]:mt-0 w-40 mt-10 z-10 " src="/logo.svg" alt="" />
                             </Link>
                         </li>
                         <li className="mx-4">

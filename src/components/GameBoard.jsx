@@ -143,7 +143,7 @@ function GameBoard() {
 
     return (
         <div className="relative" onClick={handleOutsideClick}>
-            <div className="relative w-full h-full overflow-hidden">
+            <div className=" relative w-full h-full overflow-hidden">
                 <img
                     src={`/${imageId}.jpeg`}
                     alt="Where's Waldo Game"
