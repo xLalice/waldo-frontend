@@ -138,9 +138,6 @@ function GameBoard() {
         window.dispatchEvent(event);
     }, []);
 
-    console.log(targetingPosition)
-    console.log(scaleFactor)
-
     return (
         <div className="relative" onClick={handleOutsideClick}>
             <div className=" relative w-full h-full overflow-hidden">
