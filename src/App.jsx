@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import GameBoard from './components/GameBoard';
 import Leaderboard from './components/Leaderboard';
