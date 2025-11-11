@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://waldo-backend-cy2z.onrender.com/api';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL + '/api';
 
 const api = {
     getCharacters: async (image) => {
