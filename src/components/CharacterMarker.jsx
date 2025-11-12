@@ -1,24 +1,25 @@
 import React from 'react';
 
 function CharacterMarker({ position, scaleFactor }) {
-  const size = 50;
-  const scaledSize = size * scaleFactor; 
-  const offset = scaledSize / 2; 
-  const adjustmentX = 20; 
-  const adjustmentY = 20;
+  const scaledSize = 50 * scaleFactor;
 
   return (
-    <div 
+    <div
       style={{
-        left: `${position.x * scaleFactor - offset + adjustmentX}px`,
-        top: `${position.y * scaleFactor - offset + adjustmentY}px`,
+        left: `${position.x * scaleFactor}px`,
+        top: `${position.y * scaleFactor}px`,
         width: `${scaledSize}px`,
         height: `${scaledSize}px`,
-        transform: `translate(-50%, -50%)`
+        transform: `translate(-50%, -50%)`,
       }}
-      className='absolute border-2 border-solid border-red-600 rounded-full pointer-events-none'
+      className="absolute rounded-full pointer-events-none 
+                 border-4 border-solid border-white 
+                 bg-red-500/50 
+                 shadow-xl 
+                 animate-pop-in"
     />
   );
 }
 
+// React.memo is a great choice here!
 export default React.memo(CharacterMarker);
