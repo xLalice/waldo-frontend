@@ -17,6 +17,7 @@ function GameBoard() {
   const [endTime, setEndTime] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [scaleFactor, setScaleFactor] = useState(1);
+  const [feedbackStatus, setFeedbackStatus] = useState(null);
 
   const correctSoundRef = useRef(null);
   const wrongSoundRef = useRef(null);
@@ -107,7 +108,9 @@ function GameBoard() {
     const x = xPercent * imgElement.naturalWidth;
     const y = yPercent * imgElement.naturalHeight;
 
-    console.log(`Natural Coords: { "x": ${Math.round(x)}, "y": ${Math.round(y)} }`);
+    console.log(
+      `Natural Coords: { "x": ${Math.round(x)}, "y": ${Math.round(y)} }`
+    );
 
     setTargetingPosition({ x, y });
     setIsDropdownVisible(true);
@@ -120,6 +123,8 @@ function GameBoard() {
 
   const handleCharacterSelect = useCallback(
     async (characterName) => {
+      setIsDropdownVisible(false);
+
       try {
         const response = await api.validateCharacter({
           characterName,
@@ -130,18 +135,24 @@ function GameBoard() {
 
         if (response.data.isCorrect) {
           correctSoundRef.current.play();
+          setFeedbackStatus("correct");
           setFoundCharacters((prev) => [...prev, characterName]);
           if (foundCharacters.length + 1 === characters.length) {
             setGameCompleted(true);
           }
         } else {
           wrongSoundRef.current.play();
+          setFeedbackStatus("wrong");
         }
       } catch (error) {
         console.error("Error validating character:", error);
+        setFeedbackStatus("wrong");
       }
-      setTargetingPosition(null);
-      setIsDropdownVisible(false);
+
+      setTimeout(() => {
+        setTargetingPosition(null);
+        setFeedbackStatus(null);
+      }, 500);
     },
     [targetingPosition, characters, foundCharacters, imageId]
   );
@@ -178,7 +189,11 @@ function GameBoard() {
         {formatTime(elapsedTime)}
       </div>
       {targetingPosition && (
-        <TargetingBox position={targetingPosition} scaleFactor={scaleFactor} />
+        <TargetingBox
+          position={targetingPosition}
+          scaleFactor={scaleFactor}
+          status={feedbackStatus}
+        />
       )}
       {isDropdownVisible && targetingPosition && (
         <CharacterDropdown
