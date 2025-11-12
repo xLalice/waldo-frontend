@@ -7,7 +7,7 @@ function App() {
     return (
         <Router>
             <div className="min-h-screen w-full bg-gray-100">
-                <nav className="max-[500px]:w-full relative w-full z-10 bg-gray-100">
+                <nav className="max-[500px]:w-full relative w-full z-10 bg-red-500">
                     <ul className="flex items-center h-16 px-4 w-full">
                         <li className="mx-4 mr-auto">
                             <Link to="/" className="text-blue-600 hover:text-blue-800 font-medium">
@@ -16,7 +16,7 @@ function App() {
                         </li>
                         <li className="mx-4">
                             <Link to="/leaderboard" className="text-blue-600 hover:text-blue-800 font-medium">
-                                <p className='font-custom text-xl text-cyan-400 '>Leaderboard</p>
+                                <p className='font-custom text-xl text-white '>Leaderboard</p>
                             </Link>
                         </li>
                     </ul>
