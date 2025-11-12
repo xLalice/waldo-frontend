@@ -9,8 +9,6 @@ The app features a React/Tailwind frontend, a Node.js/Express backend, and a Mon
 
 A quick demonstration of the core gameplay loop, from selection to feedback.
 
-
-*(Place your `gameplay-demo.gif` here)*
 ![Demo GIF](public/screenshots/demo.gif)
 
 | Level Selection | Game Completed | Leaderboard |
