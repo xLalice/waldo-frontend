@@ -43,7 +43,7 @@ function CharacterDropdown({ position, onSelect, characters, foundCharacters, sc
                 {remainingCharacters.map((character) => (
                     <li
                         key={character._id}
-                        className="cursor-pointer p-2 hover:bg-blue-200"
+                        className="cursor-pointer text-black p-2 hover:bg-blue-500 hover:text-white"
                         onClick={() => onSelect(character.name)}
                     >
                         {character.name}
